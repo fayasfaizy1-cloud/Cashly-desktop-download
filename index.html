@@ -13,25 +13,43 @@
       --primary: #2196F3;
       --primary-dark: #1976D2;
       --primary-light: #4FC3F7;
-      --primary-glow: rgba(33, 150, 243, 0.25);
-      --bg-start: #0A0E17;
-      --bg-end: #121826;
-      --card-bg: rgba(20, 25, 38, 0.85);
-      --card-glass: rgba(255, 255, 255, 0.03);
-      --text-main: #F0F4F8;
-      --text-muted: #B0BEC5;
-      --text-dim: #78909C;
       --accent: #FF4081;
       --success: #4CAF50;
-      --border: rgba(120, 144, 156, 0.15);
       --radius-xl: 28px;
       --radius-lg: 20px;
       --radius-md: 14px;
       --radius-sm: 10px;
-      --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.4);
-      --shadow-glow: 0 0 50px var(--primary-glow);
       --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       --transition-fast: all 0.2s ease;
+      
+      /* Light Mode Default */
+      --bg-start: #F8FAFF;
+      --bg-end: #EFF3FF;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-glass: rgba(255, 255, 255, 0.8);
+      --text-main: #1A237E;
+      --text-muted: #3949AB;
+      --text-dim: #5C6BC0;
+      --border: rgba(92, 107, 192, 0.15);
+      --shadow-lg: 0 25px 60px rgba(33, 150, 243, 0.1);
+      --shadow-glow: 0 0 50px rgba(33, 150, 243, 0.08);
+      --hover-bg: rgba(33, 150, 243, 0.05);
+      --stat-bg: rgba(33, 150, 243, 0.08);
+    }
+
+    .dark-mode {
+      --bg-start: #0A0E17;
+      --bg-end: #121826;
+      --card-bg: rgba(20, 25, 38, 0.95);
+      --card-glass: rgba(255, 255, 255, 0.03);
+      --text-main: #F0F4F8;
+      --text-muted: #B0BEC5;
+      --text-dim: #78909C;
+      --border: rgba(120, 144, 156, 0.15);
+      --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.4);
+      --shadow-glow: 0 0 50px rgba(33, 150, 243, 0.15);
+      --hover-bg: rgba(33, 150, 243, 0.08);
+      --stat-bg: rgba(33, 150, 243, 0.12);
     }
 
     * {
@@ -55,6 +73,50 @@
       padding: 32px 24px;
       line-height: 1.6;
       overflow-x: hidden;
+      transition: background 0.5s ease, color 0.3s ease;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 32px;
+      right: 32px;
+      z-index: 1000;
+    }
+
+    .theme-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--text-main);
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .theme-btn:hover {
+      transform: rotate(30deg) scale(1.1);
+      border-color: var(--primary);
+      box-shadow: 0 10px 40px rgba(33, 150, 243, 0.2);
+    }
+
+    .theme-btn .sun {
+      display: none;
+    }
+
+    .dark-mode .theme-btn .moon {
+      display: none;
+    }
+
+    .dark-mode .theme-btn .sun {
+      display: block;
     }
 
     /* Animated background elements */
@@ -68,7 +130,7 @@
         linear-gradient(var(--border) 1px, transparent 1px),
         linear-gradient(90deg, var(--border) 1px, transparent 1px);
       background-size: 40px 40px;
-      opacity: 0.03;
+      opacity: 0.05;
       z-index: -2;
       animation: gridMove 60s linear infinite;
     }
@@ -83,10 +145,16 @@
       width: 500px;
       height: 500px;
       border-radius: 50%;
-      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(33, 150, 243, 0.1) 0%, transparent 70%);
       filter: blur(60px);
       z-index: -1;
       animation: float 20s ease-in-out infinite;
+      opacity: 0.7;
+      transition: opacity 0.5s ease;
+    }
+
+    .dark-mode .glow-circle {
+      opacity: 1;
     }
 
     .glow-circle:nth-child(1) {
@@ -99,7 +167,7 @@
       bottom: -200px;
       left: -200px;
       animation-delay: -10s;
-      background: radial-gradient(circle, rgba(255, 64, 129, 0.1) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 64, 129, 0.08) 0%, transparent 70%);
     }
 
     @keyframes float {
@@ -173,7 +241,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       transform: rotate(45deg);
       animation: shine 3s infinite linear;
     }
@@ -192,27 +260,28 @@
 
     .logo:hover {
       transform: rotate(15deg) scale(1.05);
-      box-shadow: 0 0 40px rgba(33, 150, 243, 0.5);
+      box-shadow: 0 0 40px rgba(33, 150, 243, 0.4);
     }
 
     .app-tag {
       font-size: 13px;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--primary-light);
+      color: var(--primary);
       font-weight: 600;
       background: rgba(33, 150, 243, 0.1);
       padding: 6px 16px;
       border-radius: 20px;
       backdrop-filter: blur(10px);
       border: 1px solid rgba(33, 150, 243, 0.2);
+      transition: var(--transition);
     }
 
     h1 {
       font-size: 3.5rem;
       line-height: 1.1;
       font-weight: 800;
-      background: linear-gradient(135deg, var(--text-main) 0%, var(--primary-light) 100%);
+      background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: slideInLeft 0.8s ease-out 0.3s both;
@@ -239,7 +308,7 @@
       align-items: center;
       gap: 14px;
       padding: 14px 20px;
-      background: rgba(255, 255, 255, 0.03);
+      background: var(--hover-bg);
       border-radius: var(--radius-md);
       border: 1px solid var(--border);
       transition: var(--transition);
@@ -248,7 +317,7 @@
     .benefit-item:hover {
       transform: translateX(8px);
       border-color: var(--primary);
-      background: rgba(33, 150, 243, 0.05);
+      background: rgba(33, 150, 243, 0.12);
     }
 
     .benefit-item::before {
@@ -276,7 +345,7 @@
     .stat-item {
       text-align: center;
       padding: 16px;
-      background: rgba(255, 255, 255, 0.02);
+      background: var(--stat-bg);
       border-radius: var(--radius-md);
       border: 1px solid var(--border);
       transition: var(--transition);
@@ -355,8 +424,12 @@
       transition: var(--transition);
     }
 
+    .dark-mode .feature {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
     .feature:hover {
-      background: rgba(33, 150, 243, 0.05);
+      background: rgba(33, 150, 243, 0.08);
       border-color: var(--border);
       transform: translateY(-4px);
     }
@@ -393,7 +466,7 @@
 
     /* Download Section */
     .download-box {
-      background: rgba(10, 14, 23, 0.7);
+      background: var(--hover-bg);
       padding: 24px;
       border-radius: var(--radius-lg);
       border: 1px solid var(--border);
@@ -416,7 +489,7 @@
       padding: 20px;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       border-radius: var(--radius-md);
-      color: #fff;
+      color: white;
       font-weight: 600;
       font-size: 1.1rem;
       text-decoration: none;
@@ -460,7 +533,7 @@
 
     .badge {
       background: rgba(33, 150, 243, 0.15);
-      color: var(--primary-light);
+      color: var(--primary);
       padding: 6px 14px;
       border-radius: 20px;
       font-weight: 600;
@@ -476,7 +549,7 @@
       color: var(--text-dim);
       margin-top: 16px;
       padding: 16px;
-      background: rgba(76, 175, 80, 0.08);
+      background: rgba(76, 175, 80, 0.1);
       border-radius: var(--radius-md);
       border: 1px solid rgba(76, 175, 80, 0.2);
       display: flex;
@@ -487,7 +560,7 @@
     }
 
     .security:hover {
-      background: rgba(76, 175, 80, 0.12);
+      background: rgba(76, 175, 80, 0.15);
       transform: translateY(-2px);
     }
 
@@ -507,6 +580,19 @@
       to { opacity: 1; }
     }
 
+    /* OS Preference Detection */
+    .os-preference {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    .os-preference:hover {
+      opacity: 1;
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .container {
@@ -515,6 +601,11 @@
       
       h1 {
         font-size: 3rem;
+      }
+      
+      .theme-toggle {
+        top: 24px;
+        right: 24px;
       }
     }
 
@@ -577,12 +668,15 @@
         align-items: center;
       }
       
-      .feature h3 {
-        text-align: center;
+      .theme-toggle {
+        top: 20px;
+        right: 20px;
       }
       
-      .feature p {
-        text-align: center;
+      .theme-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
       }
     }
 
@@ -610,10 +704,40 @@
         font-size: 22px;
       }
     }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-start: #0A0E17;
+        --bg-end: #121826;
+        --card-bg: rgba(20, 25, 38, 0.95);
+        --card-glass: rgba(255, 255, 255, 0.03);
+        --text-main: #F0F4F8;
+        --text-muted: #B0BEC5;
+        --text-dim: #78909C;
+        --border: rgba(120, 144, 156, 0.15);
+        --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.4);
+        --shadow-glow: 0 0 50px rgba(33, 150, 243, 0.15);
+        --hover-bg: rgba(33, 150, 243, 0.08);
+        --stat-bg: rgba(33, 150, 243, 0.12);
+      }
+      
+      body {
+        background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        color: var(--text-main);
+      }
+    }
   </style>
 </head>
 
-<body>
+<body class="light-mode">
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">
+      <span class="moon">🌙</span>
+      <span class="sun">☀️</span>
+    </button>
+  </div>
+
   <!-- Animated background elements -->
   <div class="bg-grid"></div>
   <div class="glow-circle"></div>
@@ -693,6 +817,10 @@
           <span class="badge">🪟 Windows 10 / 11</span>
           <span>v2.1.0 • 28.5 MB</span>
         </div>
+        
+        <div class="os-preference">
+          <small>💡 Light mode recommended for daytime use</small>
+        </div>
       </div>
 
       <div class="security">
@@ -702,8 +830,68 @@
 
     <footer>
       © 2024 Cashly Desktop. All rights reserved. • Built with privacy by design • 
-      <span style="color: var(--primary-light); margin-left: 10px;">🎯</span> Over 50,000 transactions notified daily
+      <span style="color: var(--primary); margin-left: 10px;">🎯</span> Over 50,000 transactions notified daily
     </footer>
   </div>
+
+  <script>
+    // Theme Toggle Functionality
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    // Check for saved theme preference or prefer-color-scheme
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const savedTheme = localStorage.getItem('theme');
+    
+    // Set initial theme
+    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+      body.classList.add('dark-mode');
+      body.classList.remove('light-mode');
+    } else {
+      body.classList.add('light-mode');
+      body.classList.remove('dark-mode');
+    }
+    
+    // Toggle theme
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+      
+      // Add click animation
+      themeToggle.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        themeToggle.style.transform = '';
+      }, 150);
+    });
+    
+    // Listen for system theme changes
+    prefersDarkScheme.addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          body.classList.remove('light-mode');
+          body.classList.add('dark-mode');
+        } else {
+          body.classList.remove('dark-mode');
+          body.classList.add('light-mode');
+        }
+      }
+    });
+    
+    // Add smooth transitions to all elements when theme changes
+    const style = document.createElement('style');
+    style.textContent = `
+      * {
+        transition: background-color 0.5s ease, border-color 0.5s ease, color 0.3s ease, box-shadow 0.5s ease;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
 </body>
 </html>
