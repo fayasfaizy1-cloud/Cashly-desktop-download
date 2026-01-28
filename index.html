@@ -2,67 +2,411 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Download Cashly Desktop</title>
+  <title>Cashly Desktop | Real-time Payment Notifications for Windows</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cashly Desktop brings real-time payment notifications to your PC. Stay updated with transaction alerts on your desktop speakers. Secure sync with your mobile app.">
   <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: #60a5fa;
+      --gradient-start: #0f172a;
+      --gradient-end: #1e293b;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-tertiary: #94a3b8;
+      --border-color: rgba(100, 116, 139, 0.2);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.3);
+      --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      padding: 24px;
+      line-height: 1.6;
     }
-    .card {
-      background: #111827;
-      padding: 32px;
-      border-radius: 16px;
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
     }
-    h1 {
+
+    @media (min-width: 768px) {
+      .container {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+      }
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
       margin-bottom: 8px;
     }
-    p {
-      opacity: 0.8;
-      margin-bottom: 24px;
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      box-shadow: var(--shadow-glow);
+      border: 2px solid rgba(255, 255, 255, 0.1);
     }
-    a.button {
-      display: inline-block;
-      padding: 14px 24px;
-      background: #3b82f6;
+
+    .logo img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+
+    .app-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+    }
+
+    .benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
+    }
+
+    .benefit-item::before {
+      content: "✓";
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-soft), var(--shadow-glow);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .feature-content h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .feature-content p {
+      font-size: 0.9375rem;
+      color: var(--text-tertiary);
+    }
+
+    .download-section {
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      border: 1px solid var(--border-color);
+    }
+
+    .download-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 20px 32px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       text-decoration: none;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 16px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 1.125rem;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
     }
-    a.button:hover {
-      background: #2563eb;
+
+    .download-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s;
     }
-    .note {
-      margin-top: 16px;
-      font-size: 13px;
-      opacity: 0.6;
+
+    .download-button:hover::before {
+      left: 100%;
+    }
+
+    .download-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+    }
+
+    .download-button:active {
+      transform: translateY(0);
+    }
+
+    .download-button-icon {
+      font-size: 24px;
+    }
+
+    .download-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--text-tertiary);
+    }
+
+    .windows-badge {
+      background: rgba(0, 120, 212, 0.1);
+      color: #0078d4;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .security-note {
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .shield-icon {
+      font-size: 18px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 767px) {
+      .container {
+        gap: 32px;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.125rem;
+      }
+      
+      .card {
+        padding: 32px 24px;
+      }
+      
+      .logo-container {
+        justify-content: center;
+      }
+      
+      .download-info {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .card {
+        padding: 24px 20px;
+      }
+      
+      .feature {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .feature-icon {
+        margin: 0 auto;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Cashly Desktop</h1>
-    <p>Download the Windows app to connect with your mobile and enable desktop announcements.</p>
+  <div class="container">
+    <div class="hero-content">
+      <div class="logo-container">
+        <div class="logo">
+          <img src="Cashly.png" alt="Cashly Logo" onerror="this.style.display='none'; this.parentElement.textContent='C$'">
+        </div>
+        <div class="app-name">Cashly Desktop</div>
+      </div>
+      
+      <div>
+        <h1>Real-time payments meet desktop convenience</h1>
+        <p class="subtitle">Get instant transaction notifications on your PC speakers while keeping everything in perfect sync with your mobile banking.</p>
+        
+        <div class="benefits">
+          <div class="benefit-item">Real-time audio notifications for every transaction</div>
+          <div class="benefit-item">Seamless sync with your mobile banking app</div>
+          <div class="benefit-item">Enterprise-grade security & privacy</div>
+        </div>
+      </div>
+    </div>
 
-    <a class="button" href="Cashly.png" download>
-      ⬇ Download for Windows
-    </a>
+    <div class="card">
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🔔</div>
+          <div class="feature-content">
+            <h3>Real-time Transaction Announcements</h3>
+            <p>Hear payment notifications through your PC speakers instantly, so you never miss important transactions.</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <div class="feature-content">
+            <h3>Works with Your Existing Mobile App</h3>
+            <p>Connect seamlessly to your current banking app. No need to switch or create new accounts.</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-content">
+            <h3>Secure & Private Connection</h3>
+            <p>End-to-end encrypted sync ensures your financial data stays private and protected.</p>
+          </div>
+        </div>
+      </div>
 
-    <div class="note">
-      Supported: Windows 10 / 11
+      <div class="download-section">
+        <a href="Cashly.png" download class="download-button">
+          <span class="download-button-icon">⬇</span>
+          Download Cashly for Windows
+        </a>
+        
+        <div class="download-info">
+          <div class="windows-badge">
+            <span>🪟</span>
+            Windows 10 / 11
+          </div>
+          <div>v1.0.0 • 25 MB</div>
+        </div>
+      </div>
+
+      <div class="security-note">
+        <span class="shield-icon">🛡️</span>
+        Your financial data never leaves your devices. All connections are encrypted end-to-end.
+      </div>
     </div>
   </div>
+
+  <footer>
+    <p>© 2024 Cashly Desktop. All financial data processed locally. No cloud storage of sensitive information.</p>
+  </footer>
 </body>
 </html>
