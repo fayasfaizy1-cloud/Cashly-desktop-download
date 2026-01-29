@@ -13,7 +13,7 @@
       --primary: #2196F3; /* Blue accent */
       --primary-dark: #1976D2;
       --primary-light: #4FC3F7;
-      --accent: #2196F3; /* Same as primary for consistency */
+      --accent: #2196F3;
       --success: #4CAF50;
       --radius-xl: 28px;
       --radius-lg: 20px;
@@ -21,8 +21,10 @@
       --radius-sm: 10px;
       --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       --transition-fast: all 0.2s ease;
-      
-      /* Light Mode Default - White and Blue */
+    }
+
+    /* Light Mode Variables */
+    body {
       --bg-start: #FFFFFF;
       --bg-end: #F8FAFF;
       --card-bg: #FFFFFF;
@@ -38,8 +40,8 @@
       --surface: #FFFFFF;
     }
 
-    .dark-mode {
-      /* Dark Mode - Light Black and Blue */
+    /* Dark Mode Variables - Applied when body has .dark-mode class */
+    body.dark-mode {
       --bg-start: #121212;
       --bg-end: #1E1E1E;
       --card-bg: #252525;
@@ -114,11 +116,11 @@
       display: none;
     }
 
-    .dark-mode .theme-btn .moon {
+    body.dark-mode .theme-btn .moon {
       display: none;
     }
 
-    .dark-mode .theme-btn .sun {
+    body.dark-mode .theme-btn .sun {
       display: block;
     }
 
@@ -155,7 +157,7 @@
       opacity: 0.1;
     }
 
-    .dark-mode .glow-circle {
+    body.dark-mode .glow-circle {
       opacity: 0.15;
     }
 
@@ -421,10 +423,6 @@
       animation: slideInLeft 0.8s ease-out 0.3s both;
     }
 
-    .dark-mode h1 {
-      color: #FFFFFF;
-    }
-
     .subtitle {
       font-size: 1.2rem;
       color: var(--text-muted);
@@ -534,8 +532,6 @@
         transform: translateX(0);
       }
     }
-
-    /* Removed the moving blue line animation from card::before */
 
     .feature {
       display: flex;
@@ -849,7 +845,8 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {
+      /* Only apply dark mode if user hasn't manually selected a theme */
+      body:not(.light-mode):not(.dark-mode) {
         --bg-start: #121212;
         --bg-end: #1E1E1E;
         --card-bg: #252525;
@@ -864,16 +861,11 @@
         --stat-bg: rgba(33, 150, 243, 0.15);
         --surface: #2D2D2D;
       }
-      
-      body {
-        background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
-        color: var(--text-main);
-      }
     }
   </style>
 </head>
 
-<body class="light-mode">
+<body>
   <!-- Theme Toggle -->
   <div class="theme-toggle">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">
@@ -969,7 +961,6 @@
           <span class="badge">🪟 Windows 10 / 11</span>
           <span>v2.1.0 • 28.5 MB</span>
         </div>
-        
       </div>
 
       <div class="security">
@@ -993,12 +984,15 @@
     const savedTheme = localStorage.getItem('theme');
     
     // Set initial theme
-    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+    if (savedTheme === 'dark') {
       body.classList.add('dark-mode');
-      body.classList.remove('light-mode');
+    } else if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+    } else if (prefersDarkScheme.matches) {
+      // No saved preference, use system preference
+      body.classList.add('dark-mode');
     } else {
       body.classList.add('light-mode');
-      body.classList.remove('dark-mode');
     }
     
     // Toggle theme
@@ -1020,7 +1014,7 @@
       }, 150);
     });
     
-    // Listen for system theme changes
+    // Listen for system theme changes (only if no saved preference)
     prefersDarkScheme.addEventListener('change', (e) => {
       if (!localStorage.getItem('theme')) {
         if (e.matches) {
