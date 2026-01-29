@@ -238,6 +238,7 @@
       flex-shrink: 0;
     }
 
+    /* Sound wave animation effect */
     .logo::before {
       content: '';
       position: absolute;
@@ -247,12 +248,73 @@
       height: 200%;
       background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
       transform: rotate(45deg);
-      animation: shine 3s infinite linear;
+      animation: soundWave 2.5s ease-out infinite;
     }
 
-    @keyframes shine {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    @keyframes soundWave {
+      0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Sound wave rings effect */
+    .sound-wave {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      border-radius: 24px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .wave-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 24px;
+      border: 2px solid var(--primary);
+      opacity: 0;
+      animation: soundRing 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .wave-ring:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+
+    .wave-ring:nth-child(3) {
+      animation-delay: 1s;
+    }
+
+    @keyframes soundRing {
+      0% {
+        width: 80px;
+        height: 80px;
+        opacity: 0.7;
+        border-width: 2px;
+      }
+      100% {
+        width: 180px;
+        height: 180px;
+        opacity: 0;
+        border-width: 1px;
+      }
     }
 
     .logo img {
@@ -261,11 +323,37 @@
       z-index: 1;
       transition: var(--transition);
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
     }
 
     .logo:hover {
-      transform: rotate(15deg) scale(1.05);
+      transform: scale(1.05);
       box-shadow: 0 0 60px rgba(33, 150, 243, 0.6);
+    }
+
+    .logo:hover::before {
+      animation: soundWave 1.5s ease-out infinite;
+    }
+
+    .logo:hover .wave-ring {
+      animation: soundRing 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .logo:hover .wave-ring:nth-child(2) {
+      animation-delay: 0.25s;
+    }
+
+    .logo:hover .wave-ring:nth-child(3) {
+      animation-delay: 0.5s;
     }
 
     .app-name-container {
@@ -447,21 +535,7 @@
       }
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), #03A9F4);
-      animation: progress 3s ease-in-out infinite;
-    }
-
-    @keyframes progress {
-      0%, 100% { transform: translateX(-100%); }
-      50% { transform: translateX(100%); }
-    }
+    /* Removed the moving blue line animation from card::before */
 
     .feature {
       display: flex;
@@ -818,6 +892,12 @@
     <section class="hero">
       <div class="logo-header">
         <div class="logo">
+          <!-- Sound wave effect rings -->
+          <div class="sound-wave">
+            <div class="wave-ring"></div>
+            <div class="wave-ring"></div>
+            <div class="wave-ring"></div>
+          </div>
           <img src="Cashly.png" alt="Cashly" onerror="this.remove(); this.parentElement.textContent='C$'">
         </div>
         <div class="app-name-container">
@@ -875,7 +955,7 @@
       <div class="feature">
         <div class="icon">🔒</div>
         <div>
-          <h3>Bank-grade Security</h3>
+          <h3>High-grade Security</h3>
           <p>All data encrypted end-to-end. No financial information ever leaves your devices. 100% private.</p>
         </div>
       </div>
@@ -890,7 +970,6 @@
           <span>v2.1.0 • 28.5 MB</span>
         </div>
         
-      
       </div>
 
       <div class="security">
@@ -952,6 +1031,17 @@
           body.classList.add('light-mode');
         }
       }
+    });
+    
+    // Logo sound effect interaction
+    const logo = document.querySelector('.logo');
+    const logoImg = document.querySelector('.logo img');
+    
+    logo.addEventListener('mouseenter', () => {
+      logoImg.style.animation = 'logoPulse 0.5s ease-in-out';
+      setTimeout(() => {
+        logoImg.style.animation = 'logoPulse 3s ease-in-out infinite';
+      }, 500);
     });
     
     // Add smooth transitions to all elements when theme changes
